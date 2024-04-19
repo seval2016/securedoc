@@ -28,7 +28,7 @@ public abstract class Auditable {
     @Column(name = "id",updatable = false)
     private Long id;
 
-    private String referanceId=new AlternativeJdkIdGenerator().generateId().toString();
+    private String referanceId=new AlternativeJdkIdGenerator().generateId().toString(); // Bir referans ID oluşturur.
 
     @NotNull
     private Long createdBy;
@@ -48,9 +48,12 @@ public abstract class Auditable {
 
     @PrePersist
     public void beforePersist() {
-        var userId = RequestContext.getUserId();
+        // Yeni bir varlık oluşturulmadan önce yapılacak işlemleri tanımlar.
+        var userId = RequestContext.getUserId();//RequestContext sınıfından kullanıcı kimliğini (userId) alır. Bu, mevcut iş parçacığının (thread) isteğe özgü bağlamında kullanıcı kimliğini tutar.
         if (userId == null) {
+        //Eğer kullanıcı kimliği bulunamazsa, yani isteğe özgü bağlamda kullanıcı kimliği yoksa, ApiException fırlatılır.
             throw new ApiException("cannot persist entity without user ID in Request Context for this thread"); }
+            // Varlık için oluşturma tarihini belirler, oluşturan kullanıcı kimliğini (createdBy) ve güncelleyen kullanıcı kimliğini (updatedBy) ayarlar, ardından güncelleme tarihini belirler. Bu, varlık oluşturulurken bu alanların doğru şekilde ayarlandığını sağlar.
             setCreatedAt(now());
             setCreatedBy(userId);
             setUpdatedBy(userId);
@@ -59,6 +62,7 @@ public abstract class Auditable {
     }
         @PreUpdate
         public void beforeUpdate(){
+            // Varlık güncellenmeden önce yapılacak işlemleri tanımlar.
             var userId=RequestContext.getUserId();
             if(userId == null){
                 throw new ApiException("cannot update entity without user ID in Request Context for this thread");}
