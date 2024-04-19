@@ -1,4 +1,4 @@
 package com.getarrayz.securedoc.entity;
 
-public class User {
+public class RoleEntity {
 }
