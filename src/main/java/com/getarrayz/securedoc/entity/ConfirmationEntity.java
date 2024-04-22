@@ -26,9 +26,7 @@ import static jakarta.persistence.FetchType.EAGER;
 @Table(name="confirmations")
 @JsonInclude(NON_DEFAULT)
 public class ConfirmationEntity extends Auditable {
-
     private String key;
-
     @OneToOne(targetEntity=UserEntity.class, fetch = EAGER)
     @JoinColumn(name="user_id", nullable = false)
     @OnDelete(action= OnDeleteAction.CASCADE)
