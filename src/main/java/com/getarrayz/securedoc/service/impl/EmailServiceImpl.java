@@ -11,6 +11,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import static com.getarrayz.securedoc.utils.EmailUtils.getEmailMessage;
+import static com.getarrayz.securedoc.utils.EmailUtils.getResetPasswordMessage;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
